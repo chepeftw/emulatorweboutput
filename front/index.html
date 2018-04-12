@@ -50,7 +50,7 @@
     console.debug("Hi");
     var app = angular.module('myApp', []);
     app.controller('myCtrl', function ($scope, $http) {
-        $http.get("http://localhost:8381/emulation/bla.json")
+        $http.get("http://api.chepeftw.com/emulation/bla.json")
                 .then(function(response) {
                     dateJson = new Date(response.data.Created * 1000),
                     dateString = dateJson.toUTCString();
