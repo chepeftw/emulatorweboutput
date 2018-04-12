@@ -60,7 +60,7 @@ func GetTestData(w http.ResponseWriter, r *http.Request) {
 	c := session.DB("emulation").C(name)
 
 	results := EmulationResult{}
-	err = c.Find(bson.M{"url": "http://emulator.chepeftw.com/"}).Sort("-created").Limit(1).All(&results)
+	err = c.Find(bson.M{"url": "http://emulator.chepeftw.com/"}).Sort("-created").Limit(1).One(&results)
 
 	json.NewEncoder(w).Encode(results)
 }
