@@ -33,8 +33,11 @@ shift # past argument or value
 done
 
 case "$ACTION" in
-    start)
+    build)
         dock_build
+        ;;
+
+    start)
         dock_start
         ;;
 
@@ -43,6 +46,6 @@ case "$ACTION" in
         ;;
 
     *)
-        echo $"Usage: $0 -a {start|stop}"
+        echo $"Usage: $0 -a {start|stop|build}"
         exit 1
 esac
