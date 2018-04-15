@@ -83,25 +83,10 @@ func GetTestData(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(results)
 }
 
-// Display a single data
-func GetICO(w http.ResponseWriter, r *http.Request) {
-	params := mux.Vars(r)
-
-	name := strings.ToLower(params["name"])
-
-	results := EmulationResult{
-		Url: "https://semantic-ui.com/examples/grid.html",
-		Name: name,
-		Created: time.Now().Unix(),
-		Result1: "123456789",
-	}
-
-	json.NewEncoder(w).Encode(results)
-}
-
 func GetProcessedProperty(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 	name := strings.ToLower(params["name"])
+	prop := strings.ToLower(params["prop"])
 
 	session, err := mgo.Dial("mongodb")
 	if err != nil {
@@ -111,7 +96,8 @@ func GetProcessedProperty(w http.ResponseWriter, r *http.Request) {
 
 	c := session.DB("blockchain").C(name)
 
-	property := "$messages_count"
+	//property := "$messages_count"
+	property := "$"+prop
 
 	pipeLine := []m{
 		m{"$match": m{"name": "JulyTest_20_0"}},
@@ -139,8 +125,7 @@ func GetProcessedProperty(w http.ResponseWriter, r *http.Request) {
 func main() {
 	router := mux.NewRouter()
 
-	router.HandleFunc("/emulation/{name}", GetICO).Methods("GET")
-	router.HandleFunc("/property/{name}", GetProcessedProperty).Methods("GET")
+	router.HandleFunc("/property/{name}/{prop}", GetProcessedProperty).Methods("GET")
 	router.HandleFunc("/test/set/{name}", SetTestData).Methods("GET")
 	router.HandleFunc("/test/get/{name}", GetTestData).Methods("GET")
 
