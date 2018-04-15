@@ -13,12 +13,30 @@ import (
 	"time"
 )
 
+type m bson.M // just for brevity, bson.M type is map[string]interface{}
+
 type EmulationResult struct {
 	Url string
 	Name string
 	Created int64
 
 	Result1 string
+}
+
+type AggregationResult struct {
+	Id        string `bson:"_id"`
+	MinimumValue float64 `bson:"minVal"`
+	MaximumValue float64 `bson:"maxVal"`
+	AverageValue float64 `bson:"avgVal"`
+	StandardDeviationPValue float64 `bson:"stdPVal"`
+	StandardDeviationSValue float64 `bson:"stdSVal"`
+
+	Timeout float64 `bson:"timeout"`
+	Nodes float64 `bson:"nodes"`
+	Size float64 `bson:"size"`
+	Duration float64 `bson:"duration"`
+
+	Runs float64 `bson:"runs"`
 }
 
 type RandomResponse struct {
@@ -81,11 +99,42 @@ func GetICO(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(results)
 }
 
+func GetProcessedProperty(w http.ResponseWriter, r *http.Request) {
+	params := mux.Vars(r)
+	name := strings.ToLower(params["name"])
+
+	session, err := mgo.Dial("mongodb")
+	if err != nil {
+		panic(err)
+	}
+	defer session.Close()
+
+	c := session.DB("emulation").C(name)
+
+	property := "$messages_count"
+
+	pipeLine := []m{
+		{"$mach": m{"name": m{"$regex": "/JulyTest.*/", "$options": "si"}}},
+		{"$group": m{ "_id": "$name", "minVal": m{ "$min": property }, "maxVal": m{ "$max": property }, "avgVal": m{ "$avg": property }, "stdPVal": m{ "$stdDevPop": property }, "stdSVal": m{ "$stdDevSamp": property }, "timeout": m{ "$avg": "$timeout" }, "nodes": m{ "$avg": "$nodes" }, "size": m{ "$avg": "$size" }, "duration": m{ "$avg": "$duration" }, "runs": m{ "$sum": 1 } }},
+	}
+	var results []AggregationResult
+	result := AggregationResult{}
+	c.Pipe(pipeLine).All(&results)
+
+	for _, element := range results {
+		result = element
+		break
+	}
+
+	json.NewEncoder(w).Encode(result)
+}
+
 // main function to boot up everything
 func main() {
 	router := mux.NewRouter()
 
 	router.HandleFunc("/emulation/{name}", GetICO).Methods("GET")
+	router.HandleFunc("/property/{name}", GetProcessedProperty).Methods("GET")
 	router.HandleFunc("/test/set/{name}", SetTestData).Methods("GET")
 	router.HandleFunc("/test/get/{name}", GetTestData).Methods("GET")
 
