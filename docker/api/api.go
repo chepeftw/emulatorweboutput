@@ -109,22 +109,28 @@ func GetProcessedProperty(w http.ResponseWriter, r *http.Request) {
 	}
 	defer session.Close()
 
-	c := session.DB("emulation").C(name)
+	c := session.DB("blockchain").C(name)
 
 	property := "$messages_count"
 
 	pipeLine := []m{
-		{"$mach": m{"name": m{"$regex": "/JulyTest.*/", "$options": "si"}}},
-		{"$group": m{ "_id": "$name", "minVal": m{ "$min": property }, "maxVal": m{ "$max": property }, "avgVal": m{ "$avg": property }, "stdPVal": m{ "$stdDevPop": property }, "stdSVal": m{ "$stdDevSamp": property }, "timeout": m{ "$avg": "$timeout" }, "nodes": m{ "$avg": "$nodes" }, "size": m{ "$avg": "$size" }, "duration": m{ "$avg": "$duration" }, "runs": m{ "$sum": 1 } }},
+		m{"$match": m{"name": "JulyTest_20_0"}},
+		m{"$group":
+			m{ "_id": "$name",
+			"minVal": m{ "$min": property },
+			"maxVal": m{ "$max": property },
+			"avgVal": m{ "$avg": property },
+			"stdPVal": m{ "$stdDevPop": property },
+			"stdSVal": m{ "$stdDevSamp": property },
+			"timeout": m{ "$avg": "$timeout" },
+			"nodes": m{ "$avg": "$nodes" },
+			"size": m{ "$avg": "$size" },
+			"duration": m{ "$avg": "$duration" },
+			"runs": m{ "$sum": 1 } }},
 	}
-	var results []AggregationResult
-	result := AggregationResult{}
-	c.Pipe(pipeLine).All(&results)
-
-	for _, element := range results {
-		result = element
-		break
-	}
+	var result AggregationResult
+	//result := AggregationResult{}
+	c.Pipe(pipeLine).One(&result)
 
 	json.NewEncoder(w).Encode(result)
 }
