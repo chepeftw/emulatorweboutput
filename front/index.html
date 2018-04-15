@@ -38,9 +38,16 @@
         row</b>.</p>
 
     <div class="ui stackable one column grid">
-        <div class="column">URL: {{url}}</div>
-        <div class="column">Created: {{created}}</div>
-        <div class="column">Result1: {{result1}}</div>
+        <div class="column">ID: {{id}}</div>
+        <div class="column">Minimum: {{minimum}}</div>
+        <div class="column">Maximum: {{maximum}}</div>
+        <div class="column">Average: {{average}}</div>
+        <div class="column">StandardDeviationP: {{stdp}}</div>
+        <div class="column">StandardDeviationS: {{stds}}</div>
+        <div class="column">Timeout: {{timeout}}</div>
+        <div class="column">Nodes: {{nodes}}</div>
+        <div class="column">Size: {{size}}</div>
+        <div class="column">Runs: {{runs}}</div>
     </div>
 
 </div>
@@ -50,14 +57,21 @@
     console.debug("Hi");
     var app = angular.module('myApp', []);
     app.controller('myCtrl', function ($scope, $http) {
-        $http.get("http://api.chepeftw.com/emulation/bla.json")
+        $http.get("http://api.chepeftw.com/property/sent_messages/messages_count")
                 .then(function(response) {
                     dateJson = new Date(response.data.Created * 1000),
                     dateString = dateJson.toUTCString();
 
-                    $scope.url = response.data.Url;
-                    $scope.created = dateString;
-                    $scope.result1 = response.data.Result1;
+                    $scope.id = response.data.Id;
+                    $scope.minimum = response.data.MinimumValue;
+                    $scope.maximum = response.data.MaximumValue;
+                    $scope.average = response.data.AverageValue;
+                    $scope.stdp = response.data.StandardDeviationPValue;
+                    $scope.stds = response.data.StandardDeviationSValue;
+                    $scope.timeout = response.data.Timeout;
+                    $scope.nodes = response.data.Nodes;
+                    $scope.size = response.data.Size;
+                    $scope.runs = response.data.Runs;
             });
     });
 </script>
