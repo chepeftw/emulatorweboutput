@@ -82,10 +82,10 @@
         <tr ng-repeat="roll in sushi">
             <td>{{ roll.Id }}</td>
             <td>{{ roll.MinimumValue | number : 2 }}</td>
-            <td>{{ roll.MaximumValue }}</td>
-            <td>{{ roll.AverageValue }}</td>
-            <td>{{ roll.StandardDeviationPValue }}</td>
-            <td>{{ roll.StandardDeviationSValue }}</td>
+            <td>{{ roll.MaximumValue | number : 2 }}</td>
+            <td>{{ roll.AverageValue | number : 2 }}</td>
+            <td>{{ roll.StandardDeviationPValue | number : 2 }}</td>
+            <td>{{ roll.StandardDeviationSValue | number : 2 }}</td>
             <td>{{ roll.Timeout }}</td>
             <td>{{ roll.Nodes }}</td>
             <td>{{ roll.Size }}</td>
