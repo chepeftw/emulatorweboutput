@@ -10,8 +10,4 @@ app.controller('myCtrl', function ($scope, $http) {
 
             $scope.sushi = response.data;
         });
-
-    $scope.formatNumber = function(i) {
-        return Number((i).toFixed(2));;
-    }
 });
