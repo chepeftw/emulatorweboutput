@@ -22,6 +22,8 @@
           href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.0/components/grid.min.css">
     <link rel="stylesheet" type="text/css"
           href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.0/components/header.min.css">
+    <link rel="stylesheet" type="text/css"
+          href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.0/components/form.css">
 </head>
 <body>
 
@@ -33,44 +35,75 @@
     <h1 class="ui dividing header">Emulator Results</h1>
 
     <!-- <h3 class="first">Column Flow</h3> -->
-    <p>These are the results of a RAFT Leader Election process simulation which counts the amount of messages sent in the network.</p>
+    <p>These are the results of a RAFT Leader Election process simulation which counts the amount of messages sent in
+        the network.</p>
 
-    <div class="ui stackable one column grid">
-        <div class="column">ID: {{id}}</div>
-        <div class="column">Minimum: {{minimum}}</div>
-        <div class="column">Maximum: {{maximum}}</div>
-        <div class="column">Average: {{average}}</div>
-        <div class="column">StandardDeviationP: {{stdp}}</div>
-        <div class="column">StandardDeviationS: {{stds}}</div>
-        <div class="column">Timeout: {{timeout}}</div>
-        <div class="column">Nodes: {{nodes}}</div>
-        <div class="column">Size: {{size}}</div>
-        <div class="column">Runs: {{runs}}</div>
-    </div>
+    <form class="ui form">
+        <div class="two fields">
+            <div class="field">
+                <label>Collection</label>
+                <select class="ui fluid dropdown">
+                    <option value="sent_messages">sent_messages</option>
+                </select>
+            </div>
+            <div class="field">
+                <label>Property</label>
+                <select class="ui fluid dropdown">
+                    <option value="messages_count">messages_count</option>
+                    <option value="messages_size">messages_size</option>
+                </select>
+            </div>
+        </div>
+
+        <button class="ui button" type="submit">Submit</button>
+    </form>
+
+    <br>
+    <hr>
+    <br>
+
+    <table class="ui sortable celled table">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Minimum</th>
+            <th>Maximum</th>
+            <th>Average</th>
+            <th>SDP</th>
+            <th>SDS</th>
+            <th>Timeout</th>
+            <th>Nodes</th>
+            <th>Size</th>
+            <th>Runs</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        <tr ng-repeat="roll in sushi">
+            <td>{{ roll.ID }}</td>
+            <td>{{ roll.MinimumValue }}</td>
+            <td>{{ roll.MaximumValue }}</td>
+            <td>{{ roll.AverageValue }}</td>
+            <td>{{ roll.StandardDeviationPValue }}</td>
+            <td>{{ roll.StandardDeviationSValue }}</td>
+            <td>{{ roll.Timeout }}</td>
+            <td>{{ roll.Nodes }}</td>
+            <td>{{ roll.Size }}</td>
+            <td>{{ roll.Runs }}</td>
+        </tr>
+
+        </tbody>
+
+    </table>
 
 </div>
 
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+<script src="https://semantic-ui.com/javascript/library/tablesort.js"></script>
+<script src="app.js"></script>
 <script>
-    console.debug("Hi");
-    var app = angular.module('myApp', []);
-    app.controller('myCtrl', function ($scope, $http) {
-        $http.get("http://api.chepeftw.com/property/sent_messages/messages_count")
-                .then(function(response) {
-                    dateJson = new Date(response.data.Created * 1000),
-                    dateString = dateJson.toUTCString();
-
-                    $scope.id = response.data.Id;
-                    $scope.minimum = response.data.MinimumValue;
-                    $scope.maximum = response.data.MaximumValue;
-                    $scope.average = response.data.AverageValue;
-                    $scope.stdp = response.data.StandardDeviationPValue;
-                    $scope.stds = response.data.StandardDeviationSValue;
-                    $scope.timeout = response.data.Timeout;
-                    $scope.nodes = response.data.Nodes;
-                    $scope.size = response.data.Size;
-                    $scope.runs = response.data.Runs;
-            });
+    $('document').ready(function () {
+        $('table').tablesort()
     });
 </script>
 </body>
