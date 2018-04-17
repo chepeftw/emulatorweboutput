@@ -40,24 +40,24 @@
     <p>These are the results of a RAFT Leader Election process simulation which counts the amount of messages sent in
         the network.</p>
 
-    <form action="." class="ui form">
+    <form class="ui form">
         <div class="two fields">
             <div class="field">
                 <label>Collection</label>
-                <select class="ui fluid dropdown">
+                <select class="ui fluid dropdown" name="collection" id="selectCollection">
                     <option value="sent_messages">sent_messages</option>
                 </select>
             </div>
             <div class="field">
                 <label>Property</label>
-                <select class="ui fluid dropdown">
+                <select class="ui fluid dropdown" name="property" id="selectProperty">
                     <option value="messages_count">messages_count</option>
                     <option value="messages_size">messages_size</option>
                 </select>
             </div>
         </div>
 
-        <button class="ui button" type="submit">Submit</button>
+        <button class="ui button" ng-click="loadData()" id="refreshButton">Refresh</button>
     </form>
 
     <br>
@@ -104,6 +104,7 @@
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"
         integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <script src="https://semantic-ui.com/javascript/library/tablesort.js"></script>
+<script src="custom.js"></script>
 <script src="app.js"></script>
 <script>
     $('document').ready(function () {
