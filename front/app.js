@@ -7,6 +7,7 @@ app.controller('myCtrl', function ($scope, $http) {
         var p = $('#selectProperty').val();
 
         $('#refreshButton').html('Loading...');
+        $('#refreshButton').prop("disabled", true);
 
         // SelectElement("selectCollection", c);
         // SelectElement("selectProperty", p);
@@ -15,6 +16,7 @@ app.controller('myCtrl', function ($scope, $http) {
             .then(function (response) {
                 $scope.sushi = response.data;
                 $('#refreshButton').html('Refresh');
+                $('#refreshButton').prop("disabled", false);
             });
     };
 
