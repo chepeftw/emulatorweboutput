@@ -3,8 +3,11 @@ var app = angular.module('myApp', []);
 app.controller('myCtrl', function ($scope, $http) {
 
     $scope.loadData = function () {
-        var c = $('#selectCollection').val();
-        var p = $('#selectProperty').val();
+        var cp = $('#selectProperty').val();
+
+        var cp_array = str.split(" - ");
+        var c = str.trim(cp_array[0]);
+        var p = str.trim(cp_array[1]);
 
         $('#refreshButton').html('Loading...');
         $('#refreshButton').prop("disabled", true);

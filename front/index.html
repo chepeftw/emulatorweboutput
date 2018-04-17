@@ -41,20 +41,12 @@
         the network.</p>
 
     <form class="ui form">
-        <div class="two fields">
-            <div class="field">
-                <label>Collection</label>
-                <select class="ui fluid dropdown" name="collection" id="selectCollection">
-                    <option value="sent_messages">sent_messages</option>
-                </select>
-            </div>
-            <div class="field">
-                <label>Property</label>
-                <select class="ui fluid dropdown" name="property" id="selectProperty">
-                    <option value="messages_count">messages_count</option>
-                    <option value="messages_size">messages_size</option>
-                </select>
-            </div>
+        <div class="field">
+            <label>Property</label>
+            <select class="ui fluid dropdown" name="property" id="selectProperty">
+                <option value="sent_messages - messages_count">messages_count</option>
+                <option value="sent_messages - messages_size">messages_size</option>
+            </select>
         </div>
 
         <button class="ui button" ng-click="loadData()" id="refreshButton">Refresh</button>
@@ -64,39 +56,39 @@
     <hr>
     <br>
 
-    <table class="ui sortable celled table">
-        <thead>
-        <tr>
-            <th>ID</th>
-            <th>Min</th>
-            <th>Max</th>
-            <th>Avg</th>
-            <th>SDP</th>
-            <th>SDS</th>
-            <th>Tout</th>
-            <th>Nds</th>
-            <th>Size</th>
-            <th>Runs</th>
-        </tr>
-        </thead>
-        <tbody>
+<table class="ui sortable celled table">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Min</th>
+        <th>Max</th>
+        <th>Avg</th>
+        <th>SDP</th>
+        <th>SDS</th>
+        <th>Tout</th>
+        <th>Nds</th>
+        <th>Size</th>
+        <th>Runs</th>
+    </tr>
+    </thead>
+<tbody>
 
-        <tr ng-repeat="roll in sushi">
-            <td>{{ roll.Id }}</td>
-            <td>{{ roll.MinimumValue | number }}</td>
-            <td>{{ roll.MaximumValue | number }}</td>
-            <td>{{ roll.AverageValue | number : 1 }}</td>
-            <td>{{ roll.StandardDeviationPValue | number : 1 }}</td>
-            <td>{{ roll.StandardDeviationSValue | number : 1 }}</td>
-            <td>{{ roll.Timeout }}</td>
-            <td>{{ roll.Nodes }}</td>
-            <td>{{ roll.Size }}</td>
-            <td>{{ roll.Runs }}</td>
-        </tr>
+<tr ng-repeat="roll in sushi">
+    <td>{{ roll.Id }}</td>
+    <td>{{ roll.MinimumValue | number }}</td>
+    <td>{{ roll.MaximumValue | number }}</td>
+<td>{{ roll.AverageValue | number : 1 }}</td>
+<td>{{ roll.StandardDeviationPValue | number : 1 }}</td>
+<td>{{ roll.StandardDeviationSValue | number : 1 }}</td>
+<td>{{ roll.Timeout }}</td>
+<td>{{ roll.Nodes }}</td>
+<td>{{ roll.Size }}</td>
+<td>{{ roll.Runs }}</td>
+</tr>
 
-        </tbody>
+</tbody>
 
-    </table>
+</table>
 
 </div>
 
