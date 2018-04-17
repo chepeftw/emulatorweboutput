@@ -48,7 +48,7 @@ func GetProcessedProperty(w http.ResponseWriter, r *http.Request) {
 	property := "$" + prop
 
 	pipeLine := []m{
-		{"$match": m{"name": m{ "$regex": bson.RegEx{Pattern: `JulyTest.*`, Options: "si"} }}},
+		{"$match": m{"name": m{ "$regex": bson.RegEx{Pattern: `AprilTest.*`, Options: "si"} }}},
 		{"$group":
 		m{"_id": "$name",
 			"minVal": m{"$min": property},
