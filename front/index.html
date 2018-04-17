@@ -68,13 +68,13 @@
         <thead>
         <tr>
             <th>ID</th>
-            <th>Minimum</th>
-            <th>Maximum</th>
-            <th>Average</th>
+            <th>Min</th>
+            <th>Max</th>
+            <th>Avg</th>
             <th>SDP</th>
             <th>SDS</th>
-            <th>Timeout</th>
-            <th>Nodes</th>
+            <th>Tout</th>
+            <th>Nds</th>
             <th>Size</th>
             <th>Runs</th>
         </tr>
@@ -83,8 +83,8 @@
 
         <tr ng-repeat="roll in sushi">
             <td>{{ roll.Id }}</td>
-            <td>{{ roll.MinimumValue | number : 2 }}</td>
-            <td>{{ roll.MaximumValue | number : 2 }}</td>
+            <td>{{ roll.MinimumValue | number }}</td>
+            <td>{{ roll.MaximumValue | number }}</td>
             <td>{{ roll.AverageValue | number : 2 }}</td>
             <td>{{ roll.StandardDeviationPValue | number : 2 }}</td>
             <td>{{ roll.StandardDeviationSValue | number : 2 }}</td>
