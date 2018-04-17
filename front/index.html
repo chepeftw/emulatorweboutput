@@ -40,7 +40,7 @@
     <p>These are the results of a RAFT Leader Election process simulation which counts the amount of messages sent in
         the network.</p>
 
-    <form class="ui form">
+    <form action="." class="ui form">
         <div class="two fields">
             <div class="field">
                 <label>Collection</label>
@@ -85,9 +85,9 @@
             <td>{{ roll.Id }}</td>
             <td>{{ roll.MinimumValue | number }}</td>
             <td>{{ roll.MaximumValue | number }}</td>
-            <td>{{ roll.AverageValue | number : 2 }}</td>
-            <td>{{ roll.StandardDeviationPValue | number : 2 }}</td>
-            <td>{{ roll.StandardDeviationSValue | number : 2 }}</td>
+            <td>{{ roll.AverageValue | number : 1 }}</td>
+            <td>{{ roll.StandardDeviationPValue | number : 1 }}</td>
+            <td>{{ roll.StandardDeviationSValue | number : 1 }}</td>
             <td>{{ roll.Timeout }}</td>
             <td>{{ roll.Nodes }}</td>
             <td>{{ roll.Size }}</td>
