@@ -65,6 +65,17 @@ func GetProcessedProperty(w http.ResponseWriter, r *http.Request) {
 
 	var result []AggregationResult
 	c.Pipe(pipeLine).All(&result)
+
+	if prop == "average_medium_time" || prop == "buffer_channel_time" {
+		for _, element := range result {
+			element.MinimumValue = element.MinimumValue/1000000
+			element.MaximumValue = element.MaximumValue/1000000
+			element.AverageValue = element.AverageValue/1000000
+			element.StandardDeviationPValue = element.StandardDeviationPValue/1000000
+			element.StandardDeviationSValue = element.StandardDeviationSValue/1000000
+		}
+	}
+
 	json.NewEncoder(w).Encode(result)
 }
 
