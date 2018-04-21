@@ -61,6 +61,7 @@ func GetProcessedProperty(w http.ResponseWriter, r *http.Request) {
 			"size": m{"$avg": "$size"},
 			"duration": m{"$avg": "$duration"},
 			"runs": m{"$sum": 1}}},
+		{ "$sort": m{ "_id": 1 } },
 	}
 
 	var result []AggregationResult
