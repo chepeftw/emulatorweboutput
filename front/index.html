@@ -58,9 +58,15 @@
                 <option value="sent_messages - messages_size">raft_messages_size</option>
                 <option value="medium_time - average_medium_time">raft_average_medium_time</option>
                 <option value="elections - winner_count">raft_winner_count</option>
+                <option value="elections - winner_total">raft_winner_total</option>
                 <option value="elections - election_time_ms">raft_election_time_ms</option>
                 <option value="bufferchannel - buffer_channel_time">raft_buffer_channel_time</option>
             </select>
+        </div>
+
+        <div class="field">
+            <label>Filter</label>
+            <input type="text" name="filter" placeholder="Leave empty to fetch all ..." id="inputFilter">
         </div>
 
         <button class="ui button" ng-click="loadData()" id="refreshButton">Refresh</button>

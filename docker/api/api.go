@@ -35,6 +35,13 @@ func GetProcessedProperty(w http.ResponseWriter, r *http.Request) {
 	name := strings.ToLower(params["name"])
 	prop := strings.ToLower(params["prop"])
 
+	pattern := "^April|^Raft";
+	filter, ok := r.URL.Query()["filter"]
+
+	if ok  {
+		pattern = filter[0]
+	}
+
 	session, err := mgo.Dial("mongodb")
 	//session, err := mgo.Dial("54.186.74.114")
 	if err != nil {
@@ -48,7 +55,7 @@ func GetProcessedProperty(w http.ResponseWriter, r *http.Request) {
 	property := "$" + prop
 
 	pipeLine := []m{
-		{"$match": m{"name": m{ "$regex": bson.RegEx{Pattern: `^April|^Raft`, Options: "si"} }}},
+		{"$match": m{"name": m{ "$regex": bson.RegEx{Pattern: pattern, Options: "si"} }}},
 		{"$group":
 		m{"_id": "$name",
 			"minVal": m{"$min": property},

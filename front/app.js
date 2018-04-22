@@ -4,6 +4,7 @@ app.controller('myCtrl', function ($scope, $http) {
 
     $scope.loadData = function () {
         var cp = $('#selectProperty').val();
+        var fltr = $('#inputFilter').val();
 
         var cp_array = cp.split(" - ");
         var c = cp_array[0].trim();
@@ -15,7 +16,13 @@ app.controller('myCtrl', function ($scope, $http) {
         // SelectElement("selectCollection", c);
         // SelectElement("selectProperty", p);
 
-        $http.get("http://api.chepeftw.com/property/" + c + "/" + p)
+        var apiURL = "http://api.chepeftw.com/property/" + c + "/" + p;
+
+        if (fltr) {
+            apiURL = apiURL + "?filter=" + fltr;
+        }
+
+        $http.get( apiURL )
             .then(function (response) {
                 $scope.sushi = response.data;
                 $('#refreshButton').html('Refresh');
