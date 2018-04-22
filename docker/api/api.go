@@ -36,10 +36,10 @@ func GetProcessedProperty(w http.ResponseWriter, r *http.Request) {
 	prop := strings.ToLower(params["prop"])
 
 	pattern := "^April|^Raft";
-	filter, ok := r.URL.Query()["filter"]
+	filter := r.URL.Query().Get("filter")
 
-	if ok  {
-		pattern = filter[0]
+	if filter != "" {
+		pattern = filter
 	}
 
 	session, err := mgo.Dial("mongodb")
