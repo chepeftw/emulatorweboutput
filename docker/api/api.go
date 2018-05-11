@@ -49,7 +49,7 @@ func GetProcessedProperty(w http.ResponseWriter, r *http.Request) {
 	}
 	defer session.Close()
 
-	c := session.DB("blockchain").C(name)
+	c := session.DB("blockchain0").C(name)
 
 	//property := "$messages_count"
 	property := "$" + prop
