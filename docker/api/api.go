@@ -35,7 +35,7 @@ func GetProcessedProperty(w http.ResponseWriter, r *http.Request) {
 	name := strings.ToLower(params["name"])
 	prop := strings.ToLower(params["prop"])
 
-	pattern := "^April|^Raft";
+	pattern := "^April|^May|^Raft|^Blockchain";
 	filter := r.URL.Query().Get("filter")
 
 	if filter != "" {
