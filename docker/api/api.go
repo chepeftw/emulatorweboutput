@@ -10,6 +10,7 @@ import (
 	"gopkg.in/mgo.v2/bson"
 	"github.com/rs/cors"
 	"strings"
+	"fmt"
 )
 
 type m bson.M // just for brevity, bson.M type is map[string]interface{}
@@ -38,6 +39,8 @@ func GetProcessedProperty(w http.ResponseWriter, r *http.Request) {
 	pattern := "^April|^May|^Raft|^Blockchain";
 	filter := r.URL.Query().Get("filter")
 
+	fmt.Println("Receiving request for name = " + name + " and property = " + prop)
+
 	if filter != "" {
 		pattern = filter
 	}
@@ -57,7 +60,8 @@ func GetProcessedProperty(w http.ResponseWriter, r *http.Request) {
 	match := m{"$match": m{"name": m{"$regex": bson.RegEx{Pattern: pattern, Options: "si"}}}}
 
 	if "monitor_block_valid_ratio_percentage" == prop {
-		match = m{"$match": m{ "name": m{"$regex": bson.RegEx{Pattern: pattern, Options: "si"}}, prop : m{ "$gt": 0 } }}
+		fmt.Println(" ... Adding filter!")
+		match = m{"$match": m{"name": m{"$regex": bson.RegEx{Pattern: pattern, Options: "si"}}, prop: m{"$gt": 10}}}
 	}
 
 	pipeLine := []m{
