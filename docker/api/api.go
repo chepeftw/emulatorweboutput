@@ -57,16 +57,16 @@ func GetProcessedProperty(w http.ResponseWriter, r *http.Request) {
 	//property := "$messages_count"
 	property := "$" + prop
 
-	//match := m{"$match": m{"name": m{"$regex": bson.RegEx{Pattern: pattern, Options: "si"}}}}
+	match := m{"$match": m{"name": m{"$regex": bson.RegEx{Pattern: pattern, Options: "si"}}}}
 	//
-	//if "block_valid_ratio_percentage" == prop {
-	//	fmt.Println(" ... Adding filter!")
-	//	match = m{"$match": m{"name": m{"$regex": bson.RegEx{Pattern: pattern, Options: "si"}}, "block_valid_ratio_percentage": m{"$gt": 10}}}
-	//}
+	if "block_valid_ratio_percentage" == prop {
+		fmt.Println(" ... Adding filter!")
+		match = m{"$match": m{prop: m{"$gt": 10}, "name": m{"$regex": bson.RegEx{Pattern: pattern, Options: "si"}}}}
+	}
 
 	pipeLine := []m{
 		//{"$match": m{"block_valid_ratio_percentage": m{"$gt": 10}}},
-		{"$match": m{"block_valid_ratio_percentage": m{"$gt": 10}, "name": m{"$regex": bson.RegEx{Pattern: pattern, Options: "si"}}}},
+		match,
 		//{"$match": m{"name": m{"$regex": bson.RegEx{Pattern: pattern, Options: "si"}}}},
 		{"$group":
 		m{"_id": "$name",
