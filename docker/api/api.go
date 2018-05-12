@@ -36,7 +36,7 @@ func GetProcessedProperty(w http.ResponseWriter, r *http.Request) {
 	name := strings.ToLower(params["name"])
 	prop := strings.ToLower(params["prop"])
 
-	pattern := "^April|^May|^Raft|^Blockchain";
+	pattern := "^April|^May|^Raft|^Blockchain"
 	filter := r.URL.Query().Get("filter")
 
 	fmt.Println("Receiving request for name = " + name + " and property = " + prop)
@@ -57,15 +57,15 @@ func GetProcessedProperty(w http.ResponseWriter, r *http.Request) {
 	//property := "$messages_count"
 	property := "$" + prop
 
-	match := m{"$match": m{"name": m{"$regex": bson.RegEx{Pattern: pattern, Options: "si"}}}}
-
-	if "block_valid_ratio_percentage" == prop {
-		fmt.Println(" ... Adding filter!")
-		match = m{"$match": m{"name": m{"$regex": bson.RegEx{Pattern: pattern, Options: "si"}}, property: m{"$gt": 10}}}
-	}
+	//match := m{"$match": m{"name": m{"$regex": bson.RegEx{Pattern: pattern, Options: "si"}}}}
+	//
+	//if "block_valid_ratio_percentage" == prop {
+	//	fmt.Println(" ... Adding filter!")
+	//	match = m{"$match": m{"name": m{"$regex": bson.RegEx{Pattern: pattern, Options: "si"}}, "block_valid_ratio_percentage": m{"$gt": 10}}}
+	//}
 
 	pipeLine := []m{
-		match,
+		{"$match": m{"name": m{"$regex": bson.RegEx{Pattern: pattern, Options: "si"}}, "block_valid_ratio_percentage": m{"$gt": 10}}},
 		{"$group":
 		m{"_id": "$name",
 			"minVal": m{"$min": property},
@@ -83,7 +83,6 @@ func GetProcessedProperty(w http.ResponseWriter, r *http.Request) {
 
 	js, err := bson.Marshal(pipeLine)
 	fmt.Println("PipeLine = " + string(js))
-
 
 	var result []AggregationResult
 	c.Pipe(pipeLine).All(&result)
