@@ -49,13 +49,19 @@ func GetProcessedProperty(w http.ResponseWriter, r *http.Request) {
 	}
 	defer session.Close()
 
-	c := session.DB("blockchain0").C(name)
+	c := session.DB("blockchain1").C(name)
 
 	//property := "$messages_count"
 	property := "$" + prop
 
+	match := m{"$match": m{"name": m{"$regex": bson.RegEx{Pattern: pattern, Options: "si"}}}}
+
+	if "monitor_block_valid_ratio_percentage" == prop {
+		match = m{"$match": m{ "name": m{"$regex": bson.RegEx{Pattern: pattern, Options: "si"}}, prop : m{ "$gt": 0 } }}
+	}
+
 	pipeLine := []m{
-		{"$match": m{"name": m{ "$regex": bson.RegEx{Pattern: pattern, Options: "si"} }}},
+		match,
 		{"$group":
 		m{"_id": "$name",
 			"minVal": m{"$min": property},
@@ -68,7 +74,7 @@ func GetProcessedProperty(w http.ResponseWriter, r *http.Request) {
 			"size": m{"$avg": "$size"},
 			"duration": m{"$avg": "$duration"},
 			"runs": m{"$sum": 1}}},
-		{ "$sort": m{ "_id": 1 } },
+		{"$sort": m{"_id": 1}},
 	}
 
 	var result []AggregationResult
@@ -77,11 +83,11 @@ func GetProcessedProperty(w http.ResponseWriter, r *http.Request) {
 	if prop == "average_medium_time" || prop == "buffer_channel_time" {
 		divValue := float64(1000000)
 		for _, element := range result {
-			element.MinimumValue = element.MinimumValue/divValue
-			element.MaximumValue = element.MaximumValue/divValue
-			element.AverageValue = element.AverageValue/divValue
-			element.StandardDeviationPValue = element.StandardDeviationPValue/divValue
-			element.StandardDeviationSValue = element.StandardDeviationSValue/divValue
+			element.MinimumValue = element.MinimumValue / divValue
+			element.MaximumValue = element.MaximumValue / divValue
+			element.AverageValue = element.AverageValue / divValue
+			element.StandardDeviationPValue = element.StandardDeviationPValue / divValue
+			element.StandardDeviationSValue = element.StandardDeviationSValue / divValue
 		}
 	}
 
