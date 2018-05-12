@@ -65,7 +65,8 @@ func GetProcessedProperty(w http.ResponseWriter, r *http.Request) {
 	//}
 
 	pipeLine := []m{
-		{"$match": m{"name": m{"$regex": bson.RegEx{Pattern: pattern, Options: "si"}}, "block_valid_ratio_percentage": m{"$gt": 10}}},
+		//{"$match": m{"block_valid_ratio_percentage": m{"$gt": 10}}},
+		{"$match": m{"block_valid_ratio_percentage": m{"$gt": 10}, "name": m{"$regex": bson.RegEx{Pattern: pattern, Options: "si"}}}},
 		{"$group":
 		m{"_id": "$name",
 			"minVal": m{"$min": property},
