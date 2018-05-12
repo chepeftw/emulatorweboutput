@@ -81,6 +81,10 @@ func GetProcessedProperty(w http.ResponseWriter, r *http.Request) {
 		{"$sort": m{"_id": 1}},
 	}
 
+	js, err := bson.Marshal(pipeLine)
+	fmt.Println("PipeLine = " + string(js))
+
+
 	var result []AggregationResult
 	c.Pipe(pipeLine).All(&result)
 
