@@ -61,7 +61,7 @@ func GetProcessedProperty(w http.ResponseWriter, r *http.Request) {
 
 	if "block_valid_ratio_percentage" == prop {
 		fmt.Println(" ... Adding filter!")
-		match = m{"$match": m{"name": m{"$regex": bson.RegEx{Pattern: pattern, Options: "si"}}, prop: m{"$gt": 10}}}
+		match = m{"$match": m{"name": m{"$regex": bson.RegEx{Pattern: pattern, Options: "si"}}, property: m{"$gt": 10}}}
 	}
 
 	pipeLine := []m{
