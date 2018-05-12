@@ -38,11 +38,17 @@ func GetProcessedProperty(w http.ResponseWriter, r *http.Request) {
 
 	pattern := "^April|^May|^Raft|^Blockchain"
 	filter := r.URL.Query().Get("filter")
+	db := r.URL.Query().Get("db")
 
 	fmt.Println("Receiving request for name = " + name + " and property = " + prop)
 
 	if filter != "" {
 		pattern = filter
+	}
+
+	dbName := "blockchain0"
+	if db != "" {
+		dbName = db
 	}
 
 	session, err := mgo.Dial("mongodb")
@@ -52,16 +58,19 @@ func GetProcessedProperty(w http.ResponseWriter, r *http.Request) {
 	}
 	defer session.Close()
 
-	c := session.DB("blockchain0").C(name)
+	c := session.DB(dbName).C(name)
 
 	//property := "$messages_count"
 	property := "$" + prop
 
 	match := m{"$match": m{"name": m{"$regex": bson.RegEx{Pattern: pattern, Options: "si"}}}}
-	//
+
 	if "block_valid_ratio_percentage" == prop {
-		fmt.Println(" ... Adding filter!")
+		fmt.Println("block_valid_ratio_percentage filter!")
 		match = m{"$match": m{prop: m{"$gt": 10}, "name": m{"$regex": bson.RegEx{Pattern: pattern, Options: "si"}}}}
+	} else if "query_complete_ms" == prop {
+		fmt.Println("query_complete_ms filter!")
+		match = m{"$match": m{prop: m{"$lt": 100000}, "name": m{"$regex": bson.RegEx{Pattern: pattern, Options: "si"}}}}
 	}
 
 	pipeLine := []m{
