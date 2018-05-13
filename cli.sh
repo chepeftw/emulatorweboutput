@@ -14,6 +14,10 @@ function dock_stop {
     docker-compose -f $S down
 }
 
+function gitupdate {
+    git pull origin master
+}
+
 
 
 while [[ $# -gt 1 ]]
@@ -43,6 +47,12 @@ case "$ACTION" in
 
     stop)
         dock_stop
+        ;;
+
+    update)
+        gitupdate
+        dock_build
+        dock_start
         ;;
 
     *)
