@@ -70,10 +70,10 @@ func GetProcessedProperty(w http.ResponseWriter, r *http.Request) {
 		match = m{"$match": m{prop: m{"$gt": 10}, "name": m{"$regex": bson.RegEx{Pattern: pattern, Options: "si"}}}}
 	} else if "query_complete_ms" == prop {
 		fmt.Println("query_complete_ms filter!")
-		match = m{"$match": m{"name": m{"$regex": bson.RegEx{Pattern: pattern, Options: "si"}}, prop: m{"$lt": 5000}, prop: m{"$gt": 0}}}
+		match = m{"$match": m{"name": m{"$regex": bson.RegEx{Pattern: pattern, Options: "si"}}, prop: m{"$lt": 50000, "$gt": 0} }}
 	} else if "completion_time_ms" == prop {
 		fmt.Println("completion_time_ms filter!")
-		match = m{"$match": m{"name": m{"$regex": bson.RegEx{Pattern: pattern, Options: "si"}}, prop: m{"$lt": 5000}, prop: m{"$gt": 0}}}
+		match = m{"$match": m{"name": m{"$regex": bson.RegEx{Pattern: pattern, Options: "si"}}, prop: m{"$lt": 50000, "$gt": 0} }}
 	}
 
 	pipeLine := []m{
