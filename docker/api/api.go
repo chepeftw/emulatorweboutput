@@ -68,9 +68,12 @@ func GetProcessedProperty(w http.ResponseWriter, r *http.Request) {
 	if "block_valid_ratio_percentage" == prop {
 		fmt.Println("block_valid_ratio_percentage filter!")
 		match = m{"$match": m{prop: m{"$gt": 10}, "name": m{"$regex": bson.RegEx{Pattern: pattern, Options: "si"}}}}
-	} else if "query_complete_ms" == prop || "completion_time_ms" == prop {
+	} else if "query_complete_ms" == prop {
 		fmt.Println("query_complete_ms filter!")
-		match = m{"$match": m{prop: m{"$lt": 5000}, prop: m{"$gt": 0}, "name": m{"$regex": bson.RegEx{Pattern: pattern, Options: "si"}}}}
+		match = m{"$match": m{"name": m{"$regex": bson.RegEx{Pattern: pattern, Options: "si"}}, prop: m{"$lt": 5000}, prop: m{"$gt": 0}}}
+	} else if "completion_time_ms" == prop {
+		fmt.Println("completion_time_ms filter!")
+		match = m{"$match": m{"name": m{"$regex": bson.RegEx{Pattern: pattern, Options: "si"}}, prop: m{"$lt": 5000}, prop: m{"$gt": 0}}}
 	}
 
 	pipeLine := []m{
