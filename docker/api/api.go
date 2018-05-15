@@ -36,7 +36,7 @@ type AggregationResult struct {
 
 type Highchart struct {
 	Name string    `json:"name"`
-	Data []int `json:"data"`
+	Data []float64 `json:"data"`
 }
 
 type Highcharts struct {
@@ -196,12 +196,12 @@ func GetProcessedGraph(w http.ResponseWriter, r *http.Request) {
 		}
 		med := sum - min - max
 
-		minVal := 0
-		medVal := 0
-		maxVal := 0
+		minVal := float64(0)
+		medVal := float64(0)
+		maxVal := float64(0)
 		for _, res := range result {
 			fmt.Println("Checking average value for " + strconv.Itoa(int(res.Size)))
-			formatValue := int(res.AverageValue)
+			formatValue := toFixed(res.AverageValue, 2)
 			switch res.Size {
 			case min:
 				minVal = formatValue
@@ -223,6 +223,15 @@ func GetProcessedGraph(w http.ResponseWriter, r *http.Request) {
 	}
 
 	json.NewEncoder(w).Encode(finalResult)
+}
+
+func round(num float64) int {
+	return int(num + math.Copysign(0.5, num))
+}
+
+func toFixed(num float64, precision int) float64 {
+	output := math.Pow(10, float64(precision))
+	return float64(round(num * output)) / output
 }
 
 // main function to boot up everything
