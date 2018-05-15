@@ -22,11 +22,11 @@ app.controller('myCtrl', function ($scope, $http) {
         };
 
         var timeouts = [200, 300];
-        var speeds= [2, 5];
+        var speeds = [2, 5];
 
         var i, j;
         for (i = 0; i < timeouts.length; i++) {
-            for (j = 0; i < speeds.length; j++) {
+            for (j = 0; j < speeds.length; j++) {
                 console.debug("Working on " + timeouts[i] + " and " + speeds[j]);
                 var apiURL1 = "http://api.chepeftw.com/graph/" + c + "/" + p + "/" + timeouts[i] + "/" + speeds[j];
                 $http.get( apiURL1 )
