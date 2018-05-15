@@ -17,9 +17,14 @@ app.controller('myCtrl', function ($scope, $http) {
             title: { text: 'Number of nodes' },
             xAxis: { categories: ['20', '30', '40', '50'] },
             yAxis: { title: { text: 'Time (ms)' } },
+            credits: { enabled: false },
             plotOptions: { line: { dataLabels: { enabled: true },  enableMouseTracking: false } },
             series: []
         };
+        
+        if ( p == "block_valid_ratio_percentage") {
+            chartdata1.yAxis.title.text = 'Percentage (%)';
+        }
 
         // var timeouts = [200, 300];
         // var speeds = [2, 5];
