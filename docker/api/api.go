@@ -174,9 +174,9 @@ func GetProcessedGraph(w http.ResponseWriter, r *http.Request) {
 	numberOfNodes := [4]int{20, 30, 40, 50}
 
 	finalResult := Highcharts{}
-	finalResult.Highchart = append(finalResult.Highchart, Highchart{"Low density", []int{}})
-	finalResult.Highchart = append(finalResult.Highchart, Highchart{"Medium density", []int{}})
-	finalResult.Highchart = append(finalResult.Highchart, Highchart{"High density", []int{}})
+	finalResult.Highchart = append(finalResult.Highchart, Highchart{"Low density", []float64{}})
+	finalResult.Highchart = append(finalResult.Highchart, Highchart{"Medium density", []float64{}})
+	finalResult.Highchart = append(finalResult.Highchart, Highchart{"High density", []float64{}})
 
 	for _, nodes := range numberOfNodes {
 		fmt.Println("Querying for numberOfNodes = " + strconv.Itoa(nodes))
