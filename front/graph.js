@@ -36,18 +36,6 @@ app.controller('myCtrl', function ($scope, $http) {
             }
         }
 
-        var i, j;
-        for (i = 0; i < timeouts.length; i++) {
-            for (j = 0; i < speeds.length; j++) {
-                var apiURL1 = "http://api.chepeftw.com/graph/monitor_accuracy/block_valid_ratio_percentage/" + timeouts[i] + "/" + speeds[j];
-                $http.get( apiURL1 )
-                    .then(function (response) {
-                        chartdata1.series = response.data.Highchart;
-                        Highcharts.chart('container_bvrp_' + timeouts[i] + '_' + speeds[j], chartdata1);
-                    });
-            }
-        }
-
     };
 
     //initial load
