@@ -128,8 +128,8 @@ func GetProcessedGraph(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 	name := strings.ToLower(params["name"])
 	prop := strings.ToLower(params["prop"])
-	timeout := strings.ToLower(params["tmout"])
-	speed := strings.ToLower(params["speed"])
+	timeout, _ := strconv.Atoi(strings.ToLower(params["tmout"]))
+	speed, _ := strconv.Atoi(strings.ToLower(params["speed"]))
 	//name := "monitor_query_complete"
 	//prop := "query_complete_ms"
 	//timeout := 200
