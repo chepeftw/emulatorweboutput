@@ -10,7 +10,7 @@ app.controller('myCtrl', function ($scope, $http) {
                 // $scope.sushi = response.data;
 
                 var seriesGD = [],
-                    graphData= response.data;
+                    graphData= response.data.Highchart;
 
                 for (var i=0; i< graphData.length; i++) {
                     seriesGD.push({"name" : graphData[i].name, "data" : graphData[i].data})

@@ -36,7 +36,7 @@ type AggregationResult struct {
 
 type Highchart struct {
 	Name string    `json:"name"`
-	Data []float64 `json:"data"`
+	Data []string `json:"data"`
 }
 
 type Highcharts struct {
@@ -173,9 +173,9 @@ func GetProcessedGraph(w http.ResponseWriter, r *http.Request) {
 	speed := 2
 
 	finalResult := Highcharts{}
-	finalResult.Highchart = append(finalResult.Highchart, Highchart{"Low density", []float64{}})
-	finalResult.Highchart = append(finalResult.Highchart, Highchart{"Medium density", []float64{}})
-	finalResult.Highchart = append(finalResult.Highchart, Highchart{"High density", []float64{}})
+	finalResult.Highchart = append(finalResult.Highchart, Highchart{"Low density", []string{}})
+	finalResult.Highchart = append(finalResult.Highchart, Highchart{"Medium density", []string{}})
+	finalResult.Highchart = append(finalResult.Highchart, Highchart{"High density", []string{}})
 
 	for _, nodes := range numberOfNodes {
 		fmt.Println("Querying for numberOfNodes = " + strconv.Itoa(nodes))
@@ -195,31 +195,29 @@ func GetProcessedGraph(w http.ResponseWriter, r *http.Request) {
 		}
 		med := sum - min - max
 
-		minVal := float64(0)
-		medVal := float64(0)
-		maxVal := float64(0)
+		minVal := ""
+		medVal := ""
+		maxVal := ""
 		for _, res := range result {
 			fmt.Println("Checking average value for " + strconv.Itoa(int(res.Size)))
+			formatValue := strconv.FormatFloat(res.AverageValue, 'f', 3, 64)
 			switch res.Size {
 			case min:
-				minVal = res.AverageValue
+				minVal = formatValue
 				break
 			case med:
-				medVal = res.AverageValue
+				medVal = formatValue
 				break
 			case max:
-				maxVal = res.AverageValue
+				maxVal = formatValue
 				break
 			}
 		}
 
-		fmt.Println("Checking finalResult for " + finalResult.Highchart[0].Name)
 		finalResult.Highchart[0].Data = append(finalResult.Highchart[0].Data, minVal)
 
-		fmt.Println("Checking finalResult for " + finalResult.Highchart[1].Name)
 		finalResult.Highchart[1].Data = append(finalResult.Highchart[1].Data, medVal)
 
-		fmt.Println("Checking finalResult for " + finalResult.Highchart[2].Name)
 		finalResult.Highchart[2].Data = append(finalResult.Highchart[2].Data, maxVal)
 	}
 
