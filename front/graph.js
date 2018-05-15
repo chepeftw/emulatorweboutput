@@ -27,6 +27,7 @@ app.controller('myCtrl', function ($scope, $http) {
         var i, j;
         for (i = 0; i < timeouts.length; i++) {
             for (j = 0; i < speeds.length; j++) {
+                console.debug("Working on " + timeouts[i] + " and " + speeds[j]);
                 var apiURL1 = "http://api.chepeftw.com/graph/" + c + "/" + p + "/" + timeouts[i] + "/" + speeds[j];
                 $http.get( apiURL1 )
                     .then(function (response) {
