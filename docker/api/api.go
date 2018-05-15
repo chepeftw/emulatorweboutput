@@ -12,6 +12,7 @@ import (
 	"strings"
 	"fmt"
 	"math"
+	"strconv"
 )
 
 type m bson.M // just for brevity, bson.M type is map[string]interface{}
@@ -177,6 +178,7 @@ func GetProcessedGraph(w http.ResponseWriter, r *http.Request) {
 	finalResult.Highchart = append(finalResult.Highchart, Highchart{"High density", []float64{}})
 
 	for _, nodes := range numberOfNodes {
+		fmt.Println("Querying for numberOfNodes = " + strconv.Itoa(nodes))
 		match = m{"$match": m{"name": m{"$regex": bson.RegEx{Pattern: pattern, Options: "si"}}, prop: m{"$lt": 50000, "$gt": 0}, "timeout": timeout, "speed": speed, "nodes": nodes}}
 		pipeLine := []m{match, group, sort}
 
@@ -197,6 +199,7 @@ func GetProcessedGraph(w http.ResponseWriter, r *http.Request) {
 		medVal := float64(0)
 		maxVal := float64(0)
 		for _, res := range result {
+			fmt.Println("Checking average value for " + strconv.Itoa(int(res.Size)))
 			switch res.Size {
 			case min:
 				minVal = res.AverageValue
@@ -211,6 +214,7 @@ func GetProcessedGraph(w http.ResponseWriter, r *http.Request) {
 		}
 
 		for _, chart := range finalResult.Highchart {
+			fmt.Println("Checking finalResult.Highchart for " + chart.Name)
 			switch chart.Name {
 			case "Low density":
 				chart.Data = append(chart.Data, minVal)
