@@ -21,21 +21,39 @@ app.controller('myCtrl', function ($scope, $http) {
             series: []
         };
 
-        var timeouts = [200, 300];
-        var speeds = [2, 5];
+        // var timeouts = [200, 300];
+        // var speeds = [2, 5];
 
-        var i, j;
-        for (i = 0; i < timeouts.length; i++) {
-            for (j = 0; j < speeds.length; j++) {
-                console.debug("Working on " + timeouts[i] + " and " + speeds[j]);
-                var apiURL1 = "http://api.chepeftw.com/graph/" + c + "/" + p + "/" + timeouts[i] + "/" + speeds[j];
-                $http.get( apiURL1 )
-                    .then(function (response) {
-                        chartdata1.series = response.data.Highchart;
-                        Highcharts.chart('container_mqc_' + timeouts[i] + '_' + speeds[j], chartdata1);
-                    });
-            }
-        }
+        console.debug("Working on 200 and 2");
+        $http.get( "http://api.chepeftw.com/graph/" + c + "/" + p + "/200/2" )
+            .then(function (response) {
+                chartdata1.series = response.data.Highchart;
+                Highcharts.chart('container_200_2', chartdata1);
+            });
+
+        console.debug("Working on 200 and 5");
+        $http.get( "http://api.chepeftw.com/graph/" + c + "/" + p + "/200/5" )
+            .then(function (response) {
+                chartdata1.series = response.data.Highchart;
+                Highcharts.chart('container_200_5', chartdata1);
+            });
+
+        console.debug("Working on 300 and 2");
+        $http.get( "http://api.chepeftw.com/graph/" + c + "/" + p + "/300/2" )
+            .then(function (response) {
+                chartdata1.series = response.data.Highchart;
+                Highcharts.chart('container_300_2', chartdata1);
+            });
+
+        console.debug("Working on 300 and 5");
+        $http.get( "http://api.chepeftw.com/graph/" + c + "/" + p + "/300/5" )
+            .then(function (response) {
+                chartdata1.series = response.data.Highchart;
+                Highcharts.chart('container_300_5', chartdata1);
+            });
+
+        $('#refreshButton').html('Refresh');
+        $('#refreshButton').prop("disabled", false);
 
     };
 
