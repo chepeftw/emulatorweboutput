@@ -213,21 +213,14 @@ func GetProcessedGraph(w http.ResponseWriter, r *http.Request) {
 			}
 		}
 
-		for _, chart := range finalResult.Highchart {
-			fmt.Println("Checking finalResult.Highchart for " + chart.Name)
-			switch chart.Name {
-			case "Low density":
-				chart.Data = append(chart.Data, minVal)
-				break
-			case "Medium density":
-				chart.Data = append(chart.Data, medVal)
-				break
-			case "High density":
-				chart.Data = append(chart.Data, maxVal)
-				break
-			}
-		}
+		fmt.Println("Checking finalResult for " + finalResult.Highchart[0].Name)
+		finalResult.Highchart[0].Data = append(finalResult.Highchart[0].Data, minVal)
 
+		fmt.Println("Checking finalResult for " + finalResult.Highchart[1].Name)
+		finalResult.Highchart[1].Data = append(finalResult.Highchart[1].Data, medVal)
+
+		fmt.Println("Checking finalResult for " + finalResult.Highchart[2].Name)
+		finalResult.Highchart[2].Data = append(finalResult.Highchart[2].Data, maxVal)
 	}
 
 	json.NewEncoder(w).Encode(finalResult)
