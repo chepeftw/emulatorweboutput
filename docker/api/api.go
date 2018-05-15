@@ -36,7 +36,7 @@ type AggregationResult struct {
 
 type Highchart struct {
 	Name string    `json:"name"`
-	Data []string `json:"data"`
+	Data []int `json:"data"`
 }
 
 type Highcharts struct {
@@ -173,9 +173,9 @@ func GetProcessedGraph(w http.ResponseWriter, r *http.Request) {
 	speed := 2
 
 	finalResult := Highcharts{}
-	finalResult.Highchart = append(finalResult.Highchart, Highchart{"Low density", []string{}})
-	finalResult.Highchart = append(finalResult.Highchart, Highchart{"Medium density", []string{}})
-	finalResult.Highchart = append(finalResult.Highchart, Highchart{"High density", []string{}})
+	finalResult.Highchart = append(finalResult.Highchart, Highchart{"Low density", []int{}})
+	finalResult.Highchart = append(finalResult.Highchart, Highchart{"Medium density", []int{}})
+	finalResult.Highchart = append(finalResult.Highchart, Highchart{"High density", []int{}})
 
 	for _, nodes := range numberOfNodes {
 		fmt.Println("Querying for numberOfNodes = " + strconv.Itoa(nodes))
@@ -195,12 +195,12 @@ func GetProcessedGraph(w http.ResponseWriter, r *http.Request) {
 		}
 		med := sum - min - max
 
-		minVal := ""
-		medVal := ""
-		maxVal := ""
+		minVal := 0
+		medVal := 0
+		maxVal := 0
 		for _, res := range result {
 			fmt.Println("Checking average value for " + strconv.Itoa(int(res.Size)))
-			formatValue := strconv.FormatFloat(res.AverageValue, 'f', 3, 64)
+			formatValue := int(res.AverageValue)
 			switch res.Size {
 			case min:
 				minVal = formatValue
