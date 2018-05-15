@@ -125,11 +125,15 @@ func GetProcessedProperty(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetProcessedGraph(w http.ResponseWriter, r *http.Request) {
-	//params := mux.Vars(r)
-	//name := strings.ToLower(params["name"])
-	//prop := strings.ToLower(params["prop"])
-	name := "monitor_query_complete"
-	prop := "query_complete_ms"
+	params := mux.Vars(r)
+	name := strings.ToLower(params["name"])
+	prop := strings.ToLower(params["prop"])
+	timeout := strings.ToLower(params["tmout"])
+	speed := strings.ToLower(params["speed"])
+	//name := "monitor_query_complete"
+	//prop := "query_complete_ms"
+	//timeout := 200
+	//speed := 2
 
 	pattern := "^Blockchain"
 	db := r.URL.Query().Get("db")
@@ -151,7 +155,6 @@ func GetProcessedGraph(w http.ResponseWriter, r *http.Request) {
 
 	property := "$" + prop
 
-	match := m{"$match": m{"name": m{"$regex": bson.RegEx{Pattern: pattern, Options: "si"}}, prop: m{"$lt": 50000, "$gt": 0}}}
 	group := m{"$group":
 	m{"_id": "$name",
 		"minVal": m{"$min": property},
@@ -169,8 +172,6 @@ func GetProcessedGraph(w http.ResponseWriter, r *http.Request) {
 	sort := m{"$sort": m{"_id": 1}}
 
 	numberOfNodes := [4]int{20, 30, 40, 50}
-	timeout := 200
-	speed := 2
 
 	finalResult := Highcharts{}
 	finalResult.Highchart = append(finalResult.Highchart, Highchart{"Low density", []int{}})
@@ -179,7 +180,7 @@ func GetProcessedGraph(w http.ResponseWriter, r *http.Request) {
 
 	for _, nodes := range numberOfNodes {
 		fmt.Println("Querying for numberOfNodes = " + strconv.Itoa(nodes))
-		match = m{"$match": m{"name": m{"$regex": bson.RegEx{Pattern: pattern, Options: "si"}}, prop: m{"$lt": 50000, "$gt": 0}, "timeout": timeout, "speed": speed, "nodes": nodes}}
+		match := m{"$match": m{"name": m{"$regex": bson.RegEx{Pattern: pattern, Options: "si"}}, prop: m{"$lt": 50000, "$gt": 0}, "timeout": timeout, "speed": speed, "nodes": nodes}}
 		pipeLine := []m{match, group, sort}
 
 		var result []AggregationResult
@@ -230,7 +231,7 @@ func main() {
 
 	router.HandleFunc("/property/{name}/{prop}", GetProcessedProperty).Methods("GET")
 	//router.HandleFunc("/graph/{name}/{prop}", GetProcessedGraph).Methods("GET")
-	router.HandleFunc("/graph", GetProcessedGraph).Methods("GET")
+	router.HandleFunc("/graph/{name}/{prop}/{tmout}/{speed}", GetProcessedGraph).Methods("GET")
 
 	handler := cors.Default().Handler(router)
 	log.Fatal(http.ListenAndServe(":8000", handler))

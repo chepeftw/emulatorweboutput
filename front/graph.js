@@ -5,6 +5,32 @@ app.controller('myCtrl', function ($scope, $http) {
     $scope.loadData = function () {
         var apiURL = "http://api.chepeftw.com/graph";
 
+        var chartdata = {
+            chart: {
+                type: 'line'
+            },
+            title: {
+                text: 'Number of nodes'
+            },
+            xAxis: {
+                categories: ['20', '30', '40', '50']
+            },
+            yAxis: {
+                title: {
+                    text: 'Time (ms)'
+                }
+            },
+            plotOptions: {
+                line: {
+                    dataLabels: {
+                        enabled: true
+                    },
+                    enableMouseTracking: false
+                }
+            },
+            series: []
+        };
+
         $http.get( apiURL )
             .then(function (response) {
                 // $scope.sushi = response.data;
@@ -15,33 +41,6 @@ app.controller('myCtrl', function ($scope, $http) {
                 for (var i=0; i< graphData.length; i++) {
                     seriesGD.push({"name" : graphData[i].name, "data" : graphData[i].data})
                 }
-
-
-                var chartdata = {
-                    chart: {
-                        type: 'line'
-                    },
-                    title: {
-                        text: 'Number of nodes'
-                    },
-                    xAxis: {
-                        categories: ['20', '30', '40', '50']
-                    },
-                    yAxis: {
-                        title: {
-                            text: 'Time (ms)'
-                        }
-                    },
-                    plotOptions: {
-                        line: {
-                            dataLabels: {
-                                enabled: true
-                            },
-                            enableMouseTracking: false
-                        }
-                    },
-                    series: []
-                };
 
                 chartdata.series = seriesGD;
 
