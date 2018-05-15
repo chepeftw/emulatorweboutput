@@ -38,6 +38,55 @@
 
     <br>
 
+    <form class="ui form">
+        <div class="field">
+            <label>Property</label>
+            <select class="ui fluid dropdown" name="property" id="selectProperty">
+                <!-- <option value="raft_sent_messages - messages_count">raft_messages_count</option> -->
+                <!-- <option value="raft_sent_messages - ping_count">raft_pings_count</option> -->
+                <!-- <option value="raft_sent_messages - messages_size">raft_messages_size</option> -->
+                <!-- <option value="raft_medium_time - average_medium_time">raft_average_medium_time</option> -->
+                <!-- <option value="raft_elections - winner_count">raft_winner_count</option> -->
+                <!-- <option value="raft_elections - winner_total">raft_winner_total</option> -->
+                <!-- <option value="raft_elections - election_time_ms">raft_election_time_ms</option> -->
+                <!-- <option value="raft_bufferchannel - buffer_channel_time">raft_buffer_channel_time</option> -->
+
+                <!-- <option value="router_sent_messages - messages_count">router_messages_count</option> -->
+                <!-- <option value="router_sent_messages - ping_count">router_pings_count</option> -->
+                <!-- <option value="router_sent_messages - messages_size">router_messages_size</option> -->
+
+                <!-- <option value="router_query_propagation - query_propagation_ms">router_query_propagation</option> -->
+                <!-- <option value="router_query_propagation - query_hops">router_query_hops</option> -->
+                <!-- <option value="router_query_completion - completion_time_ms">router_query_complete</option> -->
+
+                <option value="monitor_query_complete - query_complete_ms">monitor_query_complete</option>
+
+                <!-- <option value="monitor_accuracy - block_valid_ratio">monitor_block_valid_ratio</option> -->
+                <option value="monitor_accuracy - block_valid_ratio_percentage">monitor_block_valid_ratio</option>
+
+                <!-- <option value="miner_time1 - mining_time_1_ms">miner_mining_time_1</option> -->
+                <!-- <option value="miner_time2 - mining_time_2_ns">miner_mining_time_2_ns</option> -->
+            </select>
+        </div>
+
+        <div class="field">
+            <label>Filter</label>
+            <input type="text" name="filter" placeholder="Leave empty to fetch all ..." id="inputFilter">
+        </div>
+
+        <div class="field">
+            <label>DB Name</label>
+            <input type="text" name="db" placeholder="Database name, e.g. blockchain0, blockchain1,  ..."
+                   id="inputFilter">
+        </div>
+
+        <button class="ui button" ng-click="loadData()" id="refreshButton">Refresh</button>
+    </form>
+
+    <br>
+    <hr>
+    <br>
+
     <br>
     <h2 class="ui header">Monitor query complete - Timeout 200ms - Speed 2m/s</h2>
     <br>

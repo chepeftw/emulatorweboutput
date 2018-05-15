@@ -3,7 +3,14 @@ var app = angular.module('myApp', []);
 app.controller('myCtrl', function ($scope, $http) {
 
     $scope.loadData = function () {
-        var apiURL = "http://api.chepeftw.com/graph/monitor_query_complete/query_complete_ms/200/2";
+        var cp = $('#selectProperty').val();
+
+        var cp_array = cp.split(" - ");
+        var c = cp_array[0].trim();
+        var p = cp_array[1].trim();
+
+        $('#refreshButton').html('Loading...');
+        $('#refreshButton').prop("disabled", true);
 
         var chartdata1 = {
             chart: { type: 'line' },
@@ -20,7 +27,7 @@ app.controller('myCtrl', function ($scope, $http) {
         var i, j;
         for (i = 0; i < timeouts.length; i++) {
             for (j = 0; i < speeds.length; j++) {
-                var apiURL1 = "http://api.chepeftw.com/graph/monitor_query_complete/query_complete_ms/" + timeouts[i] + "/" + speeds[j];
+                var apiURL1 = "http://api.chepeftw.com/graph/" + c + "/" + p + "/" + timeouts[i] + "/" + speeds[j];
                 $http.get( apiURL1 )
                     .then(function (response) {
                         chartdata1.series = response.data.Highchart;
