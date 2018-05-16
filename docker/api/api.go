@@ -171,6 +171,23 @@ func GetProcessedGraph(w http.ResponseWriter, r *http.Request) {
 	}
 	sort := m{"$sort": m{"_id": 1}}
 
+	if "messages_count" == prop {
+		group = m{"$group":
+		m{"_id": "$name",
+			"minVal": m{"$min": m{"$divide": []interface{}{property, 4}} },
+			"maxVal": m{"$max": m{"$divide": []interface{}{property, 4}}},
+			"avgVal": m{"$avg": m{"$divide": []interface{}{property, 4}}},
+			"stdPVal": m{"$stdDevPop": m{"$divide": []interface{}{property, 4}}},
+			"stdSVal": m{"$stdDevSamp": m{"$divide": []interface{}{property, 4}}},
+			"timeout": m{"$avg": "$timeout"},
+			"nodes": m{"$avg": "$nodes"},
+			"size": m{"$avg": "$size"},
+			"speed": m{"$avg": "$speed"},
+			"duration": m{"$avg": "$duration"},
+			"runs": m{"$sum": 1}},
+		}
+	}
+
 	numberOfNodes := [4]int{20, 30, 40, 50}
 
 	finalResult := Highcharts{}
