@@ -21,9 +21,18 @@ app.controller('myCtrl', function ($scope, $http) {
             plotOptions: { line: { dataLabels: { enabled: true },  enableMouseTracking: false } },
             series: []
         };
-        
-        if ( p == "block_valid_ratio_percentage") {
+
+        if ( p == "query_complete_ms") {
+            $scope.graphTitle = "Monitor Query Complete";
+        } else if ( p == "block_valid_ratio_percentage") {
+            $scope.graphTitle = "Block Valid Ratio";
             chartdata1.yAxis.title.text = 'Percentage (%)';
+        } else if ( c == "router_sent_messages" && p == "messages_count") {
+            $scope.graphTitle = "Router Message Count";
+            chartdata1.yAxis.title.text = 'Number of Packets';
+        } else if ( c == "raft_sent_messages" && p == "messages_count") {
+            $scope.graphTitle = "Raft Message Count";
+            chartdata1.yAxis.title.text = 'Number of Packets';
         }
 
         // var timeouts = [200, 300];
