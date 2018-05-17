@@ -130,15 +130,16 @@ func GetProcessedGraph(w http.ResponseWriter, r *http.Request) {
 	prop := strings.ToLower(params["prop"])
 	timeout, _ := strconv.Atoi(strings.ToLower(params["tmout"]))
 	speed, _ := strconv.Atoi(strings.ToLower(params["speed"]))
-	//name := "monitor_query_complete"
-	//prop := "query_complete_ms"
-	//timeout := 200
-	//speed := 2
 
-	pattern := "^Blockchain"
+	pattern := "^Blockchain_1"
+	filter := r.URL.Query().Get("filter")
 	db := r.URL.Query().Get("db")
 
 	fmt.Println("Receiving request for graph for name = " + name + " and property = " + prop)
+
+	if filter != "" {
+		pattern = filter
+	}
 
 	dbName := "blockchain0"
 	if db != "" {
