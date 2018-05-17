@@ -24,21 +24,22 @@ app.controller('myCtrl', function ($scope, $http) {
             series: []
         };
 
+        var graphFileName = ""
         if ( p == "query_complete_ms") {
             $scope.graphTitle = "Monitor Query Complete";
-            chartdata1.exporting.filename = 'QueryComplete';
+            graphFileName = 'QueryComplete';
         } else if ( p == "block_valid_ratio_percentage") {
             $scope.graphTitle = "Block Valid Ratio";
             chartdata1.yAxis.title.text = 'Percentage (%)';
-            chartdata1.exporting.filename = 'Accuracy';
+            graphFileName = 'Accuracy';
         } else if ( c == "router_sent_messages" && p == "messages_count") {
             $scope.graphTitle = "Router Message Count";
             chartdata1.yAxis.title.text = 'Number of Packets';
-            chartdata1.exporting.filename = 'RouterMessageCount';
+            graphFileName = 'RouterMessageCount';
         } else if ( c == "raft_sent_messages" && p == "messages_count") {
             $scope.graphTitle = "Raft Message Count";
             chartdata1.yAxis.title.text = 'Number of Packets';
-            chartdata1.exporting.filename = 'RaftMessageCount';
+            graphFileName = 'RaftMessageCount';
         }
 
         var postfix = ""
@@ -49,7 +50,7 @@ app.controller('myCtrl', function ($scope, $http) {
         console.debug("Working on 200 and 2");
         $http.get( "http://api.chepeftw.com/graph/" + c + "/" + p + "/200/2" + postfix )
             .then(function (response) {
-                chartdata1.exporting.filename = chartdata1.exporting.filename + '200ms2ms';
+                chartdata1.exporting.filename = graphFileName + '200ms2ms';
                 chartdata1.series = response.data.Highchart;
                 Highcharts.chart('container_200_2', chartdata1);
             });
@@ -57,7 +58,7 @@ app.controller('myCtrl', function ($scope, $http) {
         console.debug("Working on 200 and 5");
         $http.get( "http://api.chepeftw.com/graph/" + c + "/" + p + "/200/5" + postfix )
             .then(function (response) {
-                chartdata1.exporting.filename = chartdata1.exporting.filename + '200ms5ms';
+                chartdata1.exporting.filename = graphFileName + '200ms5ms';
                 chartdata1.series = response.data.Highchart;
                 Highcharts.chart('container_200_5', chartdata1);
             });
@@ -65,7 +66,7 @@ app.controller('myCtrl', function ($scope, $http) {
         console.debug("Working on 300 and 2");
         $http.get( "http://api.chepeftw.com/graph/" + c + "/" + p + "/300/2" + postfix )
             .then(function (response) {
-                chartdata1.exporting.filename = chartdata1.exporting.filename + '300ms2ms';
+                chartdata1.exporting.filename = graphFileName + '300ms2ms';
                 chartdata1.series = response.data.Highchart;
                 Highcharts.chart('container_300_2', chartdata1);
             });
@@ -73,7 +74,7 @@ app.controller('myCtrl', function ($scope, $http) {
         console.debug("Working on 300 and 5");
         $http.get( "http://api.chepeftw.com/graph/" + c + "/" + p + "/300/5" + postfix )
             .then(function (response) {
-                chartdata1.exporting.filename = chartdata1.exporting.filename + '300ms5ms';
+                chartdata1.exporting.filename = graphFileName + '300ms5ms';
                 chartdata1.series = response.data.Highchart;
                 Highcharts.chart('container_300_5', chartdata1);
             });
