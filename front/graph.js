@@ -20,6 +20,7 @@ app.controller('myCtrl', function ($scope, $http) {
             yAxis: { title: { text: 'Time (ms)' } },
             credits: { enabled: false },
             plotOptions: { line: { dataLabels: { enabled: true },  enableMouseTracking: false } },
+            // plotOptions: { column: { stacking: 'normal', dataLabels: { enabled: true, color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white' } }, line: { dataLabels: { enabled: true },  enableMouseTracking: false } },
             exporting: { enabled: true, filename: 'MyChart' },
             series: []
         };
@@ -28,18 +29,25 @@ app.controller('myCtrl', function ($scope, $http) {
         if ( p == "query_complete_ms") {
             $scope.graphTitle = "Monitor Query Complete";
             graphFileName = 'QueryComplete';
+            chartdata1.chart.type = 'line';
         } else if ( p == "block_valid_ratio_percentage") {
             $scope.graphTitle = "Block Valid Ratio";
             chartdata1.yAxis.title.text = 'Percentage (%)';
             graphFileName = 'Accuracy';
+            chartdata1.chart.type = 'column';
+            chartdata1.yAxis.min = 97;
         } else if ( c == "router_sent_messages" && p == "messages_count") {
             $scope.graphTitle = "Router Message Count";
             chartdata1.yAxis.title.text = 'Number of Packets';
             graphFileName = 'RouterMessageCount';
+            chartdata1.chart.type = 'column';
+            chartdata1.plotOptions = { column: { stacking: 'normal', dataLabels: { enabled: true, color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white' } }, line: { dataLabels: { enabled: true },  enableMouseTracking: false } };
         } else if ( c == "raft_sent_messages" && p == "messages_count") {
             $scope.graphTitle = "Raft Message Count";
             chartdata1.yAxis.title.text = 'Number of Packets';
             graphFileName = 'RaftMessageCount';
+            chartdata1.chart.type = 'column';
+            chartdata1.plotOptions = { column: { stacking: 'normal', dataLabels: { enabled: true, color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white' } }, line: { dataLabels: { enabled: true },  enableMouseTracking: false } };
         }
 
         var postfix = ""
